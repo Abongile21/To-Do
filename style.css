@@ -1,0 +1,180 @@
+
+/*---------loading----------------------*/
+
+
+body{
+    background: linear-gradient(135deg, #153677,rgb(185, 181, 241));
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+form p a{
+    text-decoration: none;
+    
+
+}
+.container-sign{
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #153677,rgb(185, 181, 241));
+
+    
+    height: 100%;
+    width: 100%;
+    align-content: space-evenly;
+    align-items: center;
+
+}
+
+img{
+    display: block;
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+
+}
+.logo{
+    display: block;
+    align-items: center;
+
+}
+
+.form-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-between;
+
+
+}
+
+
+.input-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    align-content: space-between;
+
+}
+
+.input-field{
+    display: flex;
+    background-color: #eaeaea;
+    align-items: center;
+    margin: 15px 0;
+    border-radius: 9px;
+    max-height: 50px;
+    transition: max-heighth 0.5s;
+    overflow: hidden;
+    padding: 3px;
+
+
+}
+input{
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    padding: 18px 15px;
+
+}
+
+h2{
+    text-align: center;
+    color: #101010e7;
+}
+.button-field{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    
+}
+
+button{
+    align-content: center;
+    flex-basis: 48%;
+    color: #fff;
+    background: rgb(50, 50, 154);
+    height: 40px;
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    transition: background 1s;
+
+    border-radius: 10px;
+    
+}
+
+/*-------------------The to do list app-------------------------*/
+
+.container{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #153677,rgb(185, 181, 241));
+    padding: 10px;
+
+}
+
+#icon-task{
+    margin-left: 4px;
+
+}
+.do-these{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 11px;
+    
+}
+.do-these h2{
+    color: rgb(83, 83, 180);
+    display: flex;
+    align-items: baseline;
+}
+.do-these input, textarea{
+    border-radius: 40px;
+    border: 2px solid rgb(83, 83, 180) ;
+    width: 500px;
+
+}
+
+.under-row{
+    margin-top: 10px;
+}
+.under-row textarea{
+    height: 100px;
+    text-align: center;
+}
+.row{
+    display: flex;
+    align-content: space-evenly;
+}
+.add{
+    border-radius: 40px;
+    width: auto;
+    height: auto;
+}
+.add-icon{
+    width: 40px;
+    height: auto;
+}
+
+ul li{
+    display: flex;
+    align-items: center;
+
+}
+ul li input{
+    border-radius: 100px;
+
+}
+
+
+
+
