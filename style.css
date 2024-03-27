@@ -115,6 +115,27 @@ button{
     background: linear-gradient(135deg, #153677,rgb(185, 181, 241));
     padding: 10px;
 
+
+}
+
+.search{
+    display: flex;
+    justify-content: space-between;
+}
+#searchInput{
+    border: 1px solid rgb(110, 117, 138);
+    border-radius: 20px;
+
+}
+#searchBtn{
+    height: auto;
+    background: linear-gradient(135deg, #153677,rgb(185, 181, 241));
+    width: 100px;
+
+}
+#icon-search{
+    
+    color: rgba(243, 233, 233, 0.665);
 }
 
 #icon-task{
@@ -165,13 +186,30 @@ button{
     height: auto;
 }
 
-ul li{
+ul{
     display: flex;
     align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    list-style: none;
 
 }
-ul li input{
-    border-radius: 100px;
+ul li {
+    display: flex;
+    
+    margin-right: left;
+    height: auto;
+    width: 100%;
+    border-radius: 10px;
+    align-content: space-evenly;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+
+}
+.deleteBtn{
+
+ 
 
 }
 
