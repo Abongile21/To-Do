@@ -37,8 +37,37 @@ function loadTasks() {
     }
 }
   
-document.getElementById('addBtn').addEventListener('click', function() {
-    let task = document.getElementById('inputTask').value.trim(); // Trim whitespace
+document.addEventListener('DOMContentLoaded', function() {
+    loadTasks();
+  });
+  
+  function saveTasks() {
+    let tasks = document.getElementById('taskList').innerHTML;
+    localStorage.setItem('tasks', tasks);
+  }
+  
+  function loadTasks() {
+    let tasks = localStorage.getItem('tasks');
+    if (tasks) {
+      document.getElementById('taskList').innerHTML = tasks;
+      // Attach event listeners for existing tasks after loading from local storage
+      attachTaskEventListeners();
+    }
+  }
+  
+  function attachTaskEventListeners() {
+    let deleteButtons = document.querySelectorAll('.deleteBtn');
+    deleteButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        let listItem = button.parentElement;
+        listItem.remove();
+        saveTasks(); // Save tasks after deletion
+      });
+    });
+  }
+  
+  document.getElementById('addBtn').addEventListener('click', function() {
+    let task = document.getElementById('inputTask').value.trim();
     let deadline = document.getElementById('inputDate').value.trim();
     let description = document.getElementById('description').value.trim();
   
@@ -55,12 +84,11 @@ document.getElementById('addBtn').addEventListener('click', function() {
         });
         let deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete';
+        deleteBtn.classList.add('deleteBtn'); // Add a class for targeting delete buttons
         deleteBtn.addEventListener('click', function() {
           li.remove();
           saveTasks(); // Save tasks after deletion
         });
-  
-        li.dataset.searchableContent = task + ' ' + description;
   
         li.appendChild(checkbox);
         li.appendChild(document.createTextNode(task + ' - ' + deadline + '\n\n' + description));
@@ -72,6 +100,8 @@ document.getElementById('addBtn').addEventListener('click', function() {
         saveTasks(); // Save tasks after adding
         document.getElementById('inputTask').value = '';
         document.getElementById('inputDate').value = '';
+  
+        attachTaskEventListeners(); // Attach event listener to the new delete button
       } else {
         alert('Please select a deadline that is not before today.');
       }
@@ -79,5 +109,4 @@ document.getElementById('addBtn').addEventListener('click', function() {
       alert('Answer all fields');
     }
   });
-  
   
