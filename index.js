@@ -139,7 +139,7 @@ document.getElementById('addBtn').addEventListener('click', () => {
       saveTasks();
       document.getElementById('inputTask').value = '';
       document.getElementById('inputDate').value = '';
-      d
+      document.getElementById('description').value='';
 
       attachTaskEventListeners();
     } else {
