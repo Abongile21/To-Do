@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./style.css">
+    <title>Sign In</title>
+    <script src="https://kit.fontawesome.com/015b5902a4.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="container-sign">
+    <img src="./logo-color.png" alt="" class="logo">
+    <div class="form-box">
+        <h2 id="title">Sign In</h2>
+        <form id="sign-in-form">
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" placeholder="Email" id="signInEmail">
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Password" id="signInPassword">
+                </div>
+                <div class="forgot-remember">
+                    <input type="checkbox" id="remember">
+                    <label for="">Remember</label>
+
+                    <p>Forgot password?<a href="#" >here!</a></p>
+                </div>
+                <div class="button-field">
+                    <button type="submit" id="signInBtn">Sign In</button>
+                </div>
+            </div>
+        </form>
+        <p>Don't have an account? <a href="#" id="switchToSignUp">Sign Up</a></p>
+    </div>
+</div>
+    <script src="./index.js"></script>
