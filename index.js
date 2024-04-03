@@ -1,21 +1,79 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const signUpForm = document.getElementById('sign-up');
+
+    signUpForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        // Get user input
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Perform validation (e.g., check if fields are not empty)
+        if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
+            alert('Please enter all fields.');
+            return;
+        }
+
+        // Save user data to local storage
+        const userData = { name, email, password };
+        localStorage.setItem('userData', JSON.stringify(userData));
+
+        // Redirect to sign-in page
+        window.location.href = 'signin.html';
+    });
+});
+
+// ----------------------Login---------------------------------------------------
+
+document.addEventListener('DOMContentLoaded', function () {
+    const signInForm = document.getElementById('sign-in-form');
+
+    signInForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        // Get user input
+        const email = document.getElementById('signInEmail').value;
+        const password = document.getElementById('signInPassword').value;
+
+        // Perform validation (e.g., check if fields are not empty)
+        if (email.trim() === '' || password.trim() === '') {
+            alert('Please enter both email and password.');
+            return;
+        }
+
+        // Retrieve user data from local storage
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData) {
+            // Check if the provided email and password match the saved data
+            if (email === userData.email && password === userData.password) {
+                // Store authentication status in local storage
+                localStorage.setItem('isLoggedIn', true);
+                // Redirect to the to-do list or home page
+                window.location.href = 'index.html';
+            } else {
+                alert('Authentication failed. Please check your credentials.');
+            }
+        } else {
+            alert('User data not found. Please sign up first.');
+            // Redirect to sign-up page
+            window.location.href = 'signup.html';
+        }
+    });
+});
+/*---------------------------logout-------------------------------------*/
+
+document.getElementById('logout-icon').addEventListener('click', () => {
+    window.location.href = 'signin.html';
+
+
+});
 
 
 /*------------------------- To-do list -----------------------------------*/
 
 
 
-// document.getElementById('searchInput').addEventListener('input', function() {
-//     let searchValue = this.value.trim().toLowerCase();
-//     let tasks = document.querySelectorAll('#taskList li');
-//     tasks.forEach(function(task) {
-//         var taskText = task.textContent.trim().toLowerCase();
-//         if (taskText.includes(searchValue)) {
-//             task.style.display = 'block';
-//         } else {
-//             task.style.display = 'none';
-//         }
-//     });
-// });
 const searchInput =document.getElementById('searchInput')
 
 
@@ -81,6 +139,7 @@ document.getElementById('addBtn').addEventListener('click', () => {
       saveTasks();
       document.getElementById('inputTask').value = '';
       document.getElementById('inputDate').value = '';
+      d
 
       attachTaskEventListeners();
     } else {
