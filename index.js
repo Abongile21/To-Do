@@ -1,155 +1,139 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const signUpForm = document.getElementById('sign-up');
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-  signUpForm.addEventListener('submit', function (event) {
-      event.preventDefault(); 
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      
-      if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
-          alert('Please enter all fields.');
-          return;
-      }
-
-      
-      const userData = { name, email, password };
-      localStorage.setItem('userData', JSON.stringify(userData));
-
-      window.location.href = 'signin.html';
-  });
-});
-
-// ----------------------Login---------------------------------------------------
-
-document.addEventListener('DOMContentLoaded', function () {
-  const signInForm = document.getElementById('sign-in-form');
-
-  signInForm.addEventListener('submit', function (event) {
-      event.preventDefault(); 
-      const email = document.getElementById('signInEmail').value;
-      const password = document.getElementById('signInPassword').value;
-
-      // Perform validation (e.g., check if fields are not empty)
-      if (email.trim() === '' || password.trim() === '') {
-          alert('Please enter both email and password.');
-          return;
-      }
-
-            const userData = JSON.parse(localStorage.getItem('userData'));
-      if (userData) {
-          
-          if (email === userData.email && password === userData.password) {
-                           localStorage.setItem('isLoggedIn', true);
-                            window.location.href = 'index.html';
-          } else {
-              alert('Authentication failed. Please check your credentials.');
-          }
-      } else {
-          alert('User data not found. Please sign up first.');
-                    window.location.href = 'signup.html';
-      }
-  });
-});
-/*---------------------------logout-------------------------------------*/
-
-document.getElementById('logout-icon').addEventListener('click', () => {
-  window.location.href = 'signin.html';
-
-
-});
-
-
-/*------------------------- To-do list -----------------------------------*/
-
-
-
-const searchInput =document.getElementById('searchInput')
-
-
-document.addEventListener('DOMContentLoaded', function() {
-loadTasks();
-});
-
-const saveTasks = () => {
-const tasks = document.getElementById('taskList').innerHTML;
-localStorage.setItem('tasks', tasks);
-}
-
-const loadTasks = () => {
-const tasks = localStorage.getItem('tasks');
-if (tasks) {
-  document.getElementById('taskList').innerHTML = tasks;
-  attachTaskEventListeners();
-}
-}
-
-const attachTaskEventListeners = () => {
-const deleteButtons = document.querySelectorAll('.deleteBtn');
-deleteButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const listItem = button.parentElement;
-    listItem.remove();
-    saveTasks();
-  });
-});
-}
-
-document.getElementById('addBtn').addEventListener('click', () => {
-const task = document.getElementById('inputTask').value.trim();
-const deadline = document.getElementById('inputDate').value.trim();
-const description = document.getElementById('description').value.trim();
-
-const today = new Date().toISOString().slice(0, 10);
-
-if (task !== '' && deadline !== '' && description !== '') {
-  if (deadline >= today) {
-    const li = document.createElement('li');
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.addEventListener('change', () => {
-      li.classList.toggle('done', checkbox.checked);
-      saveTasks();
-    });
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete';
-    deleteBtn.classList.add('deleteBtn');
-    deleteBtn.addEventListener('click', () => {
-      li.remove();
-      saveTasks();
-    });
-
-    li.appendChild(checkbox);
-    li.appendChild(document.createTextNode(`${task} - ${deadline}\n\n${description}`));
-    li.appendChild(deleteBtn);
+  const renderTasks = (tasksArray) => {
+    const sortedTasks = tasksArray ? tasksArray.slice().sort((a, b) => new Date(a.deadline) - new Date(b.deadline)) : tasks.slice().sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
     const taskList = document.getElementById('taskList');
-    taskList.insertBefore(li, taskList.firstChild);
+    taskList.innerHTML = '';
 
-    saveTasks();
-    document.getElementById('inputTask').value = '';
-    document.getElementById('inputDate').value = '';
-    d
+    sortedTasks.forEach((task, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <blockquote>
+          <strong>${task.title}</strong><br>
+          ${task.description}<br><br>
+          Deadline: ${task.deadline}<br><br>
+          Reminder: ${task.reminder ? task.reminder : 'Not set'}<br><br>
+          <button class="editBtn" onclick="editTask(${index})">Edit</button>
+          <button class="deleteBtn" onclick="deleteTask(${index})">Delete</button>
+        </blockquote>
+      `;
+      taskList.appendChild(li);
+    });
 
     attachTaskEventListeners();
-  } else {
-    alert('Please select a deadline that is not before today.');
   }
-} else {
-  alert('Answer all fields');
-}
-});
 
-searchInput.addEventListener('input', function() {
-  const searchQuery = this.value.trim().toLowerCase();
-  const taskItems = document.querySelectorAll('#taskList li');
-  taskItems.forEach(item => {
-    const taskText = item.textContent.toLowerCase();
-    if (taskText.includes(searchQuery)) {
-      item.style.display = 'flex';
+  const saveTasks = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  const editTask = (index) => {
+    const newTitle = prompt('Enter new title:', tasks[index].title);
+    if (newTitle !== null && newTitle.trim() !== '') {
+      tasks[index].title = newTitle.trim();
+      saveTasks();
+      renderTasks();
+    }
+  }
+
+  const deleteTask = (index) => {
+    tasks.splice(index, 1);
+    saveTasks();
+    renderTasks();
+  }
+
+  const attachTaskEventListeners = () => {
+    const editButtons = document.querySelectorAll('button.editBtn');
+    const deleteButtons = document.querySelectorAll('button.deleteBtn');
+
+    editButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const listItem = button.parentElement;
+        const index = Array.from(listItem.parentNode.children).indexOf(listItem);
+        editTask(index);
+      });
+    });
+
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const listItem = button.parentElement;
+        const index = Array.from(listItem.parentNode.children).indexOf(listItem);
+        deleteTask(index);
+      });
+    });
+  }
+
+  document.getElementById('addBtn').addEventListener('click', () => {
+    const task = document.getElementById('inputTask').value.trim();
+    const deadline = document.getElementById('inputDate').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const reminder = document.getElementById('reminder').value.trim(); // Added reminder input
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    if (task && deadline && description && deadline >= today) {
+      tasks.push({ title: task, deadline, description, reminder });
+      saveTasks();
+      renderTasks();
     } else {
-      item.style.display = 'none';
+      alert('Please fill in all fields with valid data.');
     }
   });
+
+  document.getElementById('searchInput').addEventListener('input', function() {
+    const searchQuery = this.value.trim().toLowerCase();
+    const filteredTasks = tasks.filter(task => task.title.toLowerCase().includes(searchQuery));
+    renderTasks(filteredTasks);
+  });
+
+  document.getElementById('sortBtn').addEventListener('click', () => {
+    renderTasks();
+  });
+
+  renderTasks();
+
+  function signUp() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    users.push({ name, email, password, tasks: [] });
+    localStorage.setItem('users', JSON.stringify(users));
+    alert('Sign up successful! You can now sign in.');
+  }
+
+  function signIn() {
+    const email = document.getElementById('signInEmail').value;
+    const password = document.getElementById('signInPassword').value;
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      tasks.splice(0, tasks.length, ...user.tasks);
+      renderTasks();
+    } else {
+      alert('Invalid credentials. Please try again.');
+    }
+  }
+
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (currentUser) {
+    tasks.splice(0, tasks.length, ...currentUser.tasks);
+    renderTasks();
+  }
+
+  // Function to check reminders
+  const checkReminders = () => {
+    const now = new Date();
+    tasks.forEach(task => {
+      if (task.reminder && new Date(task.reminder) <= now) {
+        alert(`Reminder: ${task.title}`);
+      }
+    });
+  }
+
+  // Check reminders every minute
+  setInterval(checkReminders, 86400000);
 });
