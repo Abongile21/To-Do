@@ -169,7 +169,7 @@ button{
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 600px;
+    max-width: 1000px;
     background: #fff;
     margin: 100px auto 20px;
     padding: 40px 30px 70px;
@@ -209,28 +209,39 @@ button{
     height: auto;
 }
 
-ul{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-between;
-    list-style: none;
+#taskList {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 10px;
+    padding: 10px;
+  }
+  
+  .taskItem {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .taskItem .taskTitle {
+    font-weight: bold;
+  }
+  .editBtn {
+    margin-right: 5px;
+    background-color: #ccc; 
+  }
+  .editBtn:hover{
+    border:rgb(50, 50, 154) 1px solid;
 
-}
-ul li {
-    display: flex;
+  }
+  
+  .deleteBtn {
+    margin-left: 5px;
+    background-color: #ccc; 
+  }
+  .deleteBtn:hover{
+    border:rgb(50, 50, 154) 1px solid;
+  }
     
-    margin-right: left;
-    height: auto;
-    width: 100%;
-    border-radius: 10px;
-    align-content: space-evenly;
-    justify-content: center;
-    align-items: center;
-    padding: 6px;
-
-}
-
-
-
 
