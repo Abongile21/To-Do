@@ -226,28 +226,37 @@ button:hover{
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     grid-gap: 10px;
     padding: 10px;
-  }
+}
   
-  .taskItem {
+.taskItem {
     border-bottom: 1px solid #ccc;
     padding: 10px;
     font-size: 16px;
-  }
-  .editBtn {
-    margin-right: 5px;
+}
+.editBtn,.deleteBtn {
+    
+    margin-left: 40px;
     background-color: #ccc; 
-  }
+
+}
   .editBtn:hover{
     border:rgb(50, 50, 154) 1px solid;
 
   }
   
-  .deleteBtn {
-    margin-left: 5px;
-    background-color: #ccc; 
-  }
   .deleteBtn:hover{
     border:rgb(50, 50, 154) 1px solid;
   }
     
+blockquote{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    width: fit-content;
+}
 
+blockquote:hover{
+    border: 1px solid blueviolet;
+    border-radius: 20px;
+    width: fit-content;
+}
