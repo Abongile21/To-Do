@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchBtn = document.getElementById('searchBtn');
   const logoutBtn = document.getElementById('logoutBtn');
 
-  // Load tasks from local storage
+  
   const loadTasks = () => {
       const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
       tasks.forEach(task => createTaskElement(task));
   };
 
-  // Save tasks to local storage
+  
   const saveTasks = () => {
       const tasks = [];
       document.querySelectorAll('.task-item').forEach(taskItem => {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('tasks', JSON.stringify(tasks));
   };
 
-  // Function to add a task
+  
   const addTask = () => {
       const task = inputTask.value.trim();
       const deadline = inputDate.value;
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   };
 
-  // Create task element
+
   const createTaskElement = (task) => {
       const li = document.createElement('li');
       li.className = 'task-item bg-gray-100 p-4 rounded-lg shadow-md';
@@ -85,13 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       taskList.appendChild(li);
 
-      // Event listeners for edit and delete buttons
-      li.querySelector('.editBtn').addEventListener('click', () => editTask(li, task));
+            li.querySelector('.editBtn').addEventListener('click', () => editTask(li, task));
       li.querySelector('.deleteBtn').addEventListener('click', () => deleteTask(li));
       li.querySelector('.reminder-checkbox').addEventListener('change', saveTasks);
       li.querySelector('.status-select').addEventListener('change', saveTasks);
 
-      // Set reminder notification
+     
       if (task.reminder) {
           const reminderTime = new Date(task.deadline).getTime() - Date.now();
           if (reminderTime > 0) {
@@ -100,8 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   };
 
-  // Function to edit a task
-  const editTask = (li, task) => {
+    const editTask = (li, task) => {
       inputTask.value = task.title;
       inputDate.value = task.deadline;
       description.value = task.description;
@@ -109,13 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
       deleteTask(li);
   };
 
-  // Function to delete a task
+  
   const deleteTask = (li) => {
       li.remove();
       saveTasks();
   };
 
-  // Function to search tasks
+  
   const searchTasks = () => {
       const searchTerm = searchInput.value.toLowerCase();
       const tasks = document.querySelectorAll('.task-item');
@@ -136,6 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
   searchBtn.addEventListener('click', searchTasks);
   searchInput.addEventListener('keyup', searchTasks);
 
-  // Load tasks on page load
+ 
   loadTasks();
 });
