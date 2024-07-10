@@ -21,8 +21,9 @@ This is a simple to-do list web application built using HTML, CSS (Tailwind CSS)
 ## Getting Started
 
 1. **Clone Repository:**
+- https://github.com/Abongile21/To-Do.git
 
-2. **Open Application:**
+3. **Open Application:**
 - Navigate to the cloned directory.
 - Open `index.html` in your preferred web browser.
 
