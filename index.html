@@ -7,11 +7,18 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@1.14.0/dist/full.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/015b5902a4.js" crossorigin="anonymous"></script>
     <title>To-do List</title>
+    <style>
+        .input-search {
+            background-color: #f0f4f8;
+            color: #4a5568;
+            border-color: #cbd5e0;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
     <header class="bg-blue-500 text-white p-4 shadow-lg flex justify-between items-center">
-        <div class="flex space-x-2">
-            <input type="text" placeholder="Search tasks..." id="searchInput" class="input input-bordered w-full max-w-xs">
+        <div class="flex space-x-2 items-center">
+            <input type="text" placeholder="Search tasks..." id="searchInput" class="input input-bordered w-full max-w-xs input-search">
             <button id="searchBtn" class="btn btn-square">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -25,9 +32,9 @@
         <div class="card shadow-lg p-6 bg-white rounded-lg w-full max-w-2xl">
             <h2 class="text-2xl font-bold mb-4 text-center">Your Tasks <i class="fa-solid fa-clipboard"></i></h2>
             <div class="flex space-x-4 mb-4">
-                <input type="text" id="inputTask" placeholder="Enter task..." class="input input-bordered w-full">
-                <input type="date" id="inputDate" class="input input-bordered w-full md:w-auto">
-                <select id="inputPriority" class="select select-bordered w-full md:w-auto">
+                <input type="text" id="inputTask" placeholder="Enter task..." class="input input-bordered w-full md:w-2/4 text-gray-800">
+                <input type="date" id="inputDate" class="input input-bordered w-full md:w-1/4">
+                <select id="inputPriority" class="select select-bordered w-full md:w-1/4">
                     <option disabled selected>Priority</option>
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
