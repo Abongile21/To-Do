@@ -1,24 +1,31 @@
-#To-do List WebApp
-This is a simple to-do list application that allows you to:
+# To-do List Application
 
-* Add tasks with deadlines and descriptions (optional)
-* Mark tasks as completed
-* Delete tasks
+This is a simple to-do list web application built using HTML, CSS (Tailwind CSS), JavaScript, and Daisy UI for styling. It allows users to manage their tasks with features such as adding tasks, setting deadlines, and prioritizing tasks.
 
-  
-**Requirements:**
+## Features
 
-* A modern web browser
-* internet access
+- **Add Task**: Enter a task, set its deadline, and select its priority (High, Medium, Low).
+- **Search Tasks**: Search for tasks based on keywords.
+- **Edit and Delete Tasks**: Update task details or remove tasks as needed.
+- **Local Storage**: Tasks are saved locally, so they persist between sessions.
+- **User-friendly Interface**: Designed for easy navigation and task management.
 
-**Instructions:**
+## Technologies Used
 
-1. Save the code in three separate files: `index.html`, `script.js`,`signin.html`,`signup.html` and `style.css`.
-2. Open `signup.html` in your web browser.
-3. Add cridentials and you'll redirected to signin page
-4. the to-do app will opened
-5. Add tasks, deadlines, and descriptions (optional).
-6. Click "Add Task" to create new tasks.
-7. Click the checkbox to mark tasks as completed.
-8. Click the "Delete" button to remove tasks.
+- **HTML**: Structure of the web page.
+- **CSS (Tailwind CSS)**: Styling the UI components.
+- **JavaScript**: Handling dynamic functionalities and local storage.
+- **Daisy UI**: Provides ready-made components for streamlined UI development.
+- **Font Awesome**: Icons for enhanced user interface elements.
 
+## Getting Started
+
+1. **Clone Repository:**
+
+2. **Open Application:**
+- Navigate to the cloned directory.
+- Open `index.html` in your preferred web browser.
+
+## Contributing
+
+Contributions are welcome! Please fork this repository, make your changes, and submit a pull request with a clear description of your additions or improvements.
