@@ -1,176 +1,141 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//   const signUp = document.getElementById('signUpBtn');
+document.addEventListener('DOMContentLoaded', () => {
+  const inputTask = document.getElementById('inputTask');
+  const inputDate = document.getElementById('inputDate');
+  const inputPriority = document.getElementById('inputPriority');
+  const description = document.getElementById('description');
+  const addBtn = document.getElementById('addBtn');
+  const taskList = document.getElementById('taskList');
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
 
-//   signUpForm.addEventListener('click', function (event) {
-//       event.preventDefault(); 
-//       const name = document.getElementById('name').value;
-//       const email = document.getElementById('email').value;
-//       const password = document.getElementById('password').value;
+  // Load tasks from local storage
+  const loadTasks = () => {
+      const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      tasks.forEach(task => createTaskElement(task));
+  };
 
-      
-//       if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
-//           alert('Please enter all fields.');
-//           return;
-//       }
+  // Save tasks to local storage
+  const saveTasks = () => {
+      const tasks = [];
+      document.querySelectorAll('.task-item').forEach(taskItem => {
+          const task = {
+              title: taskItem.querySelector('h3').textContent,
+              deadline: taskItem.querySelector('p').textContent,
+              description: taskItem.querySelectorAll('p')[1].textContent,
+              priority: taskItem.querySelector('.priority').textContent,
+              reminder: taskItem.querySelector('.reminder-checkbox').checked,
+              status: taskItem.querySelector('.status-select').value
+          };
+          tasks.push(task);
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+  };
 
-      
-//       const userData = { name, email, password };
-//       localStorage.setItem('userData', JSON.stringify(userData));
+  // Function to add a task
+  const addTask = () => {
+      const task = inputTask.value.trim();
+      const deadline = inputDate.value;
+      const desc = description.value.trim();
+      const priority = inputPriority.value;
 
-//       window.location.href = 'signin.html';
-//   });
-// });
+      if (task && deadline && desc && priority) {
+          const taskObj = {
+              title: task,
+              deadline: deadline,
+              description: desc,
+              priority: priority,
+              reminder: false,
+              status: 'Pending'
+          };
+          createTaskElement(taskObj);
+          saveTasks();
+          inputTask.value = '';
+          inputDate.value = '';
+          description.value = '';
+          inputPriority.value = 'Priority';
+      } else {
+          alert('Please fill out all fields.');
+      }
+  };
 
-// // ----------------------Login---------------------------------------------------
+  // Create task element
+  const createTaskElement = (task) => {
+      const li = document.createElement('li');
+      li.className = 'task-item bg-gray-100 p-4 rounded-lg shadow-md';
+      li.innerHTML = `
+          <h3 class="text-lg font-semibold">${task.title}</h3>
+          <p class="text-sm text-gray-600">${task.deadline}</p>
+          <p class="text-gray-800">${task.description}</p>
+          <p class="priority text-sm text-gray-700 mb-2">${task.priority}</p>
+          <label class="inline-flex items-center space-x-2 cursor-pointer">
+              <input type="checkbox" class="checkbox reminder-checkbox" ${task.reminder ? 'checked' : ''}>
+              <span class="text-sm text-gray-700">Reminder</span>
+          </label>
+          <select class="select status-select mt-2">
+              <option value="Pending" ${task.status === 'Pending' ? 'selected' : ''}>Pending</option>
+              <option value="In Progress" ${task.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+              <option value="Completed" ${task.status === 'Completed' ? 'selected' : ''}>Completed</option>
+          </select>
+          <div class="mt-2 flex space-x-2">
+              <button class="btn btn-sm btn-warning editBtn"><i class="fa-solid fa-pen"></i> Edit</button>
+              <button class="btn btn-sm btn-error deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+          </div>
+      `;
 
-// document.addEventListener('DOMContentLoaded', function () {
-//   const signInForm = document.getElementById('signinBtn');
+      taskList.appendChild(li);
 
-//   signInForm.addEventListener('click', function (event) {
-//       event.preventDefault(); 
-//       const email = document.getElementById('signInEmail').value;
-//       const password = document.getElementById('signInPassword').value;
-//       if (email.trim() === '' || password.trim() === '') {
-//           alert('Please enter both email and password.');
-//           return;
-//       }
-//             const userData = JSON.parse(localStorage.getItem('userData'));
-//       if (userData) {
-          
-//           if (email === userData.email && password === userData.password) {
-//                            localStorage.setItem('isLoggedIn', true);
-//                             window.location.href = 'index.html';
-//           } else {
-//               alert('Authentication failed. Please check your credentials.');
-//           }
-//       } else {
-//           alert('User data not found. Please sign up first.');
-//                     window.location.href = 'signup.html';
-//       }
-//   });
-// });
-/*---------------------------logout-------------------------------------*/
-document.getElementById('logout-icon').addEventListener('click', () => {
-  window.location.href = 'signin.html';
-});
-/*------------------------- To-do list -----------------------------------*/
-const searchInput =document.getElementById('searchInput')
-document.addEventListener('DOMContentLoaded', function() {
-loadTasks();
-});
-const saveTasks = () => {
-const tasks = document.getElementById('taskList').innerHTML;
-localStorage.setItem('tasks', tasks);
-}
-const loadTasks = () => {
-const tasks = localStorage.getItem('tasks');
-if (tasks) {
-  document.getElementById('taskList').innerHTML = tasks;
-  attachTaskEventListeners();
-}
-}
-const attachTaskEventListeners = () => {
-const deleteButtons = document.querySelectorAll('.deleteBtn');
-deleteButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const listItem = button.parentElement;
-    listItem.remove();
-    saveTasks();
-  });
-});
-}
-document.getElementById('addBtn').addEventListener('click', () => {
-let task = document.getElementById('inputTask').value.trim();
-let deadline = document.getElementById('inputDate').value.trim();
-let description = document.getElementById('description').value.trim();
+      // Event listeners for edit and delete buttons
+      li.querySelector('.editBtn').addEventListener('click', () => editTask(li, task));
+      li.querySelector('.deleteBtn').addEventListener('click', () => deleteTask(li));
+      li.querySelector('.reminder-checkbox').addEventListener('change', saveTasks);
+      li.querySelector('.status-select').addEventListener('change', saveTasks);
 
-const today = new Date().toISOString().slice(0, 10);
-if (task !== '' && deadline !== '' && description !== '') {
-  if (deadline >= today) {
-    const li = document.createElement('li');
-    const taskDiv = document.createElement('div')
-    taskDiv.innerHTML = 
-    `<blockquote>
-    <strong>${task}</strong><br>
-    ${description}<br><br>
-    By: ${deadline}<br><br>
-    </blockquote>`
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.addEventListener('change', () => {
-      li.classList.toggle('done', checkbox.checked);
-      saveTasks();
-    });
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = '❌';
-    deleteBtn.classList.add('deleteBtn');
-    deleteBtn.addEventListener('click', () => {
+      // Set reminder notification
+      if (task.reminder) {
+          const reminderTime = new Date(task.deadline).getTime() - Date.now();
+          if (reminderTime > 0) {
+              setTimeout(() => alert(`Reminder: ${task.title}`), reminderTime);
+          }
+      }
+  };
+
+  // Function to edit a task
+  const editTask = (li, task) => {
+      inputTask.value = task.title;
+      inputDate.value = task.deadline;
+      description.value = task.description;
+      inputPriority.value = task.priority;
+      deleteTask(li);
+  };
+
+  // Function to delete a task
+  const deleteTask = (li) => {
       li.remove();
       saveTasks();
-    });
+  };
 
-    const space = document.createElement('span');
-    space.textContent = '     ';
+  // Function to search tasks
+  const searchTasks = () => {
+      const searchTerm = searchInput.value.toLowerCase();
+      const tasks = document.querySelectorAll('.task-item');
 
+      tasks.forEach(task => {
+          const taskText = task.querySelector('h3').textContent.toLowerCase();
+          const taskDesc = task.querySelectorAll('p')[1].textContent.toLowerCase();
 
-    const editBtn = document.createElement('button');
-    editBtn.textContent = '✏️';
-    editBtn.classList.add('editBtn');
-    editBtn.addEventListener('click', () => {
-      let updatedTaskTitle = prompt('Enter updated task title:', task);
-      let updatedDescription = prompt('Enter updated description:', description);
-      let updatedDeadline = prompt('Enter updated deadline (YYYY-MM-DD):', deadline);
+          if (taskText.includes(searchTerm) || taskDesc.includes(searchTerm)) {
+              task.style.display = '';
+          } else {
+              task.style.display = 'none';
+          }
+      });
+  };
 
-      if (updatedTaskTitle && updatedDescription && updatedDeadline) {
-        task = updatedTaskTitle;
-        description = updatedDescription;
-        deadline = updatedDeadline;
+  addBtn.addEventListener('click', addTask);
+  searchBtn.addEventListener('click', searchTasks);
+  searchInput.addEventListener('keyup', searchTasks);
 
-        taskDiv.innerHTML = 
-        `<blockquote>
-        <strong>${task}</strong><br>
-        ${description}<br><br>
-        By: ${deadline}<br><br>
-        </blockquote>`;
-
-       
-        saveTasks();
-      }
-    });
-
-
-    li.appendChild(checkbox);
-    li.appendChild(taskDiv);
-    li.appendChild(editBtn);
-    li.appendChild(deleteBtn);
-    li.appendChild(space);
-
-    const taskList = document.getElementById('taskList');
-    taskList.insertBefore(li, taskList.firstChild);
-
-    saveTasks();
-    document.getElementById('inputTask').value = '';
-    document.getElementById('inputDate').value = '';
-    document.getElementById('description').value='';
-
-    attachTaskEventListeners();
-  } else {
-    alert('Please select a deadline that is not before today.');
-  }
-} else {
-  alert('Answer all fields');
-}
-});
-
-searchInput.addEventListener('input', function() {
-  const searchQuery = this.value.trim().toLowerCase();
-  const taskItems = document.querySelectorAll('#taskList li');
-  taskItems.forEach(item => {
-    const taskText = item.textContent.toLowerCase();
-    if (taskText.includes(searchQuery)) {
-      item.style.display = 'flex';
-    } else {
-      item.style.display = 'none';
-    }
-  });
+  // Load tasks on page load
+  loadTasks();
 });
