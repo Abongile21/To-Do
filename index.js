@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <input type="checkbox" class="checkbox reminder-checkbox" ${task.reminder ? 'checked' : ''}>
               <span class="text-sm text-gray-700">Reminder</span>
           </label>
-          <select class="select status-select mt-2">
+          <select class="select status-select mt-2 ">
               <option value="Pending" ${task.status === 'Pending' ? 'selected' : ''}>Pending</option>
               <option value="In Progress" ${task.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
               <option value="Completed" ${task.status === 'Completed' ? 'selected' : ''}>Completed</option>
